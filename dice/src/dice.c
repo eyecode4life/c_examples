@@ -6,6 +6,12 @@
 
 static time_t seed;
 
+struct dice {
+	uint8_t sides;
+	uint8_t value;
+	uint8_t (*roll)(void);
+};
+
 uint8_t roll_dice(void) {
 	if(!seed) {
 		printf("Seed is NULL\n");
@@ -16,7 +22,9 @@ uint8_t roll_dice(void) {
 }
 
 int main(int argc, char* argv[]) {
-	uint8_t r = roll_dice();
+	struct dice mydice;
+	mydice.roll = &roll_dice;
+	uint8_t r = mydice.roll();
 	printf("The random value: %d\n",r);
 	return 0;
 }
